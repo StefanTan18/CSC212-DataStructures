@@ -72,8 +72,8 @@ namespace main_savitch_2C
         void next(double r);
         void reset( );
         // CONSTANT MEMBER FUNCTIONS
-        int length( ) const;
-        double sum( ) const;
+        int length( ) const { return count; };
+        double sum( ) const { return total; };
         double mean( ) const;
         double minimum( ) const;
         double maximum( ) const;
