@@ -34,7 +34,6 @@ namespace main_savitch_2C
 
     void statistician::reset()
     {
-        //CODE HERE
         count = 0;
         total = 0;
         tinyest = 0;
@@ -87,6 +86,9 @@ namespace main_savitch_2C
 
     statistician operator *(double scale, const statistician& s)
     {
+        if (s.length() == 0) {
+            return s;
+        }
         statistician result;
         result.count = s.length();
         result.total = scale * s.sum();
