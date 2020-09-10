@@ -15,4 +15,4 @@ stats.o: stats.cpp stats.h
 	$(CC) $(CFLAGS) -c stats.cpp
 
 clean:
-	rm *.o *~ statexam
+	rm *.o statexam
