@@ -10,8 +10,7 @@ namespace main_savitch_2C
 {
     statistician::statistician()
     {
-        m_count = 0;
-        m_total = 0;
+        reset();
     }
 
     void statistician::next(double r)
