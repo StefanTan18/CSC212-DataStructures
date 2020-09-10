@@ -10,56 +10,65 @@ namespace main_savitch_2C
 {
     statistician::statistician()
     {
-        count = 0;
-        total = 0;
+        m_count = 0;
+        m_total = 0;
     }
 
     void statistician::next(double r)
     {
-        if (count == 0) {
-            tinyest = r;
-            largest = r;
+        if (m_count == 0) {
+            m_tinyest = r;
+            m_largest = r;
         }
         else {
-            if (r < tinyest) {
-                tinyest = r;
+            if (r < m_tinyest) {
+                m_tinyest = r;
             }
-            else if (r > largest) {
-                largest = r;
+            else if (r > m_largest) {
+                m_largest = r;
             }
         }
-        count++;
-        total += r;
+        m_count++;
+        m_total += r;
     }
 
     void statistician::reset()
     {
-        count = 0;
-        total = 0;
-        tinyest = 0;
-        largest = 0;
+        m_count = 0;
+        m_total = 0;
+    }
+
+    int statistician::length() const
+    {
+        return m_count;
+    }
+
+    double statistician::sum() const
+    {
+        return m_total;
     }
 
     double statistician::mean() const
     {
-        assert(length() > 0);
+        assert(length() > 0);   // Makes sure statistician is not empty
         return sum()/length();
     }
 
     double statistician::minimum() const
     {
-        assert(length() > 0);
-        return tinyest;
+        assert(length() > 0);   // Makes sure statistician is not empty
+        return m_tinyest;
     }
 
     double statistician::maximum() const
     {
-        assert(length() > 0);
-        return largest;
+        assert(length() > 0);   // Makes sure statistician is not empty
+        return m_largest;
     }
 
     statistician operator +(const statistician& s1, const statistician& s2)
     {
+        // Returns the other statistician object if one of them is empty
         if (s1.length() == 0) {
             return s2;
         }
@@ -67,19 +76,19 @@ namespace main_savitch_2C
             return s1;
         }
         statistician result;
-        result.count = s1.length() + s2.length();
-        result.total = s1.sum() + s2.sum();
+        result.m_count = s1.length() + s2.length();
+        result.m_total = s1.sum() + s2.sum();
         if (s1.minimum() < s2.minimum()) {
-            result.tinyest = s1.minimum();
+            result.m_tinyest = s1.minimum();
         }
         else {
-            result.tinyest = s2.minimum();
+            result.m_tinyest = s2.minimum();
         }
         if (s1.maximum() > s2.maximum()) {
-            result.largest = s1.maximum();
+            result.m_largest = s1.maximum();
         }
         else {
-            result.largest = s2.maximum();
+            result.m_largest = s2.maximum();
         }
         return result;
     }
@@ -90,15 +99,15 @@ namespace main_savitch_2C
             return s;
         }
         statistician result;
-        result.count = s.length();
-        result.total = scale * s.sum();
+        result.m_count = s.length();
+        result.m_total = scale * s.sum();
         if (scale >= 0) {
-            result.tinyest = scale * s.minimum();
-            result.largest = scale * s.maximum();
+            result.m_tinyest = scale * s.minimum();
+            result.m_largest = scale * s.maximum();
         }
         else {
-            result.tinyest = scale * s.maximum();
-            result.largest = scale * s.minimum();
+            result.m_tinyest = scale * s.maximum();
+            result.m_largest = scale * s.minimum();
         }
         return result;
     }

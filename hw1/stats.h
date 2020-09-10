@@ -72,8 +72,8 @@ namespace main_savitch_2C
         void next(double r);
         void reset( );
         // CONSTANT MEMBER FUNCTIONS
-        int length( ) const { return count; };
-        double sum( ) const { return total; };
+        int length( ) const;
+        double sum( ) const;
         double mean( ) const;
         double minimum( ) const;
         double maximum( ) const;
@@ -83,10 +83,10 @@ namespace main_savitch_2C
         friend statistician operator *
             (double scale, const statistician& s);
     private:
-        int count;       // How many numbers in the sequence
-        double total;    // The sum of all the numbers in the sequence
-        double tinyest;  // The smallest number in the sequence
-        double largest;  // The largest number in the sequence
+        int m_count;       // How many numbers in the sequence
+        double m_total;    // The sum of all the numbers in the sequence
+        double m_tinyest;  // The smallest number in the sequence
+        double m_largest;  // The largest number in the sequence
     };
 
     // NON-MEMBER functions for the statistician class
