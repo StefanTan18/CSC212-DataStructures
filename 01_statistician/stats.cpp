@@ -2,6 +2,7 @@
 // CLASS IMPLEMENTED: statistician  (See stats.h for documentation.)
 
 #include <iostream>
+#include <cassert>
 #include "stats.h"
 using namespace std;
 
