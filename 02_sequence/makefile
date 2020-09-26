@@ -5,7 +5,7 @@ CC= g++
 run: sequence_exam
 	./sequence_exam
 
-sequence1: $(OBJECTS)
+sequence_exam: $(OBJECTS)
 	$(CC) $(OBJECTS) -o sequence_exam 
 
 sequence1.o: sequence1.cpp sequence1.h
