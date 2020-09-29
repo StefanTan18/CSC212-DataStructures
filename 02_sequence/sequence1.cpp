@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <cassert>
+#include <cassert>  // Provides assert
 #include "sequence1.h"
 using namespace std;
 
@@ -50,9 +50,11 @@ namespace main_savitch_3
             m_data[0] = entry;
         }
         else {
+            // Inserts item at the front when there's no current item
             if (m_current_index == m_used) {
                 m_current_index = 0;
             }
+            // Moves items after current item back one
             for (size_type i = size(); i > m_current_index; i--) {
                 m_data[i] = m_data[i - 1];
             }
@@ -71,10 +73,12 @@ namespace main_savitch_3
             m_data[0] = entry;
         }
         else {
+            // Inserts item at the end when there's no current item
             if (m_current_index == m_used) {
                 m_current_index = size() - 1;
             }
             m_current_index++;
+            // Moves items after current item back one
             for (size_type i = size(); i > m_current_index; i--) {
                 m_data[i] = m_data[i - 1];
             }
@@ -88,6 +92,7 @@ namespace main_savitch_3
     void sequence::remove_current()
     {
         assert(is_item());
+        // Moves every item after the current item forward one item
         for (size_type i = m_current_index + 1; i < size(); i++) {
             m_data[i - 1] = m_data[i];
         }
