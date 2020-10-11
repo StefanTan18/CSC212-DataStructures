@@ -21,6 +21,7 @@ namespace main_savitch_4
 {
     const sequence::size_type sequence::DEFAULT_CAPACITY;
 
+    // Constructor, intializes an empty sequence with a capacity of intial_capacity
     sequence::sequence(size_type intial_capacity)
     {
         m_data = new value_type[intial_capacity];
@@ -29,6 +30,7 @@ namespace main_savitch_4
         m_current_index = m_used;
     }
 
+    // Constructor, intializes an sequence that is a copy of source
     sequence::sequence(const sequence& source)
     {
         m_data = new value_type[source.m_capacity];
@@ -38,6 +40,7 @@ namespace main_savitch_4
         copy(source.m_data, source.m_data + m_used, m_data);
     }
 
+    // Destructor, releases dynamic memory when its no longer being used
     sequence::~sequence()
     {
         delete [] m_data;
@@ -123,6 +126,7 @@ namespace main_savitch_4
         m_used--;
     }
 
+    // Sequence's current capacity is changed to new_capacity through dynamic allocation
     void sequence::resize(size_type new_capacity)
     {
         value_type *larger_array;
@@ -140,6 +144,7 @@ namespace main_savitch_4
         m_capacity = new_capacity;
     }
 
+    // Assignment Operator, assigns a sequence to be a copy of source
     void sequence::operator=(const sequence& source)
     {
         value_type *new_data;
