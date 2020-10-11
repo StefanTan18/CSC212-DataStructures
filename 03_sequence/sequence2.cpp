@@ -164,6 +164,34 @@ namespace main_savitch_4
         copy(source.m_data, source.m_data + m_used, m_data);
     }
 
+    // Appends all items in addend onto the sequence
+    void sequence::operator+=(const sequence& addend)
+    {
+        // Checks if there is enough room for the new items
+        if(m_used + addend.m_used > m_capacity) {
+            resize(m_used + addend.m_used);
+        }
+        copy(addend.m_data, addend.m_data + addend.m_used, m_data + m_used);
+        m_used += addend.m_used;
+    }
+
+    // Returns the item in the given index
+    sequence::value_type sequence::operator[](size_type index) const
+    {
+        // Checks to make sure the given index is valid
+        assert(index < m_used);
+        return m_data[index];
+    }
+
+    // Returns a sequence with all items in s2 added onto s1
+    sequence operator +(const sequence& s1, const sequence& s2)
+    {
+        sequence result(s1.size() + s2.size());  // Ensures the sequence is of sufficient size
+        result += s1;
+        result += s2;
+        return result;
+    }
+
     // Returns the number of items in the sequence
     sequence::size_type sequence::size() const
     {
