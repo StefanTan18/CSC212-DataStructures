@@ -134,4 +134,24 @@ namespace main_savitch_5
 	}
     }
 
+	void list_piece(const node* start_ptr, const node* end_ptr, node*& head_ptr, node*& tail_ptr)
+	// Library facilities used: cstdlib
+	{
+		head_ptr = NULL;
+		tail_ptr = NULL;
+		// Handle the case of start_ptr being empty
+		if (start_ptr == NULL) {
+			return;
+		}
+		list_head_insert(head_ptr, start_ptr->data());
+		tail_ptr = head_ptr;
+		
+		start_ptr = start_ptr->link();
+		while (start_ptr != end_ptr) {
+			list_insert(tail_ptr, start_ptr->data( ));
+	    	tail_ptr = tail_ptr->link( );
+	    	start_ptr = start_ptr->link( );
+		}
+	}
+
 }

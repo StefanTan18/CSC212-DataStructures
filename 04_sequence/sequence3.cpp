@@ -26,47 +26,146 @@ namespace main_savitch_5
 {
     sequence::sequence()
     {
-        //WRITE CODE
+        m_head_ptr = NULL;
+        m_tail_ptr = NULL;
+        m_cursor = NULL;
+        m_precursor = NULL;
+        m_many_nodes = 0;
     }
 
     sequence::sequence(const sequence& source)
     {
-        //WRITE CODE
+        // Handles the case when the source sequence has no current item
+        if (!source.is_item()) {
+            list_copy(source.m_head_ptr, m_head_ptr, m_tail_ptr);
+            m_cursor = NULL;
+            m_precursor = NULL;
+        }
+        // Handles the case when the current item of the source sequence is the first item
+        else if (source.m_cursor == source.m_head_ptr) {
+            list_copy(source.m_head_ptr, m_head_ptr, m_tail_ptr);
+            m_cursor = m_head_ptr;
+            m_precursor = NULL;
+        }
+        // Handles the case when the current item of the source sequence is after the first item
+        else {
+            list_piece(source.m_head_ptr, source.m_cursor, m_head_ptr, m_precursor);
+            list_piece(source.m_cursor, source.m_tail_ptr, m_cursor, m_tail_ptr);
+            m_precursor->set_link(m_cursor);
+        }
+        m_many_nodes = source.m_many_nodes;
     }
 
     sequence::~sequence()
     {
-        //WRITE CODE
+        list_clear(m_head_ptr);
+        m_cursor = NULL;
+        m_precursor = NULL;
+        m_many_nodes = 0;
     }
 
     void sequence::start()
     {
-        //WRITE CODE
+        m_cursor = m_head_ptr;
+        m_precursor = NULL;
     }
 
     void sequence::advance()
     {
-        //WRITE CODE
+        assert(is_item());
+        m_precursor = m_cursor;
+        m_cursor = m_cursor->link();
     }
 
     void sequence::insert(const value_type& entry)
     {
-        //WRITE CODE
+        if (size() == 0) {
+            list_head_insert(m_head_ptr, entry);
+            m_tail_ptr = m_head_ptr->link();
+            m_cursor = m_head_ptr;
+            m_precursor = NULL;
+        }
+        else if (!is_item() || m_cursor == m_head_ptr) {
+            list_head_insert(m_head_ptr, entry);
+            m_cursor = m_head_ptr;
+            m_precursor = NULL;
+        }
+        else {
+            list_insert(m_precursor, entry);
+            m_cursor = m_precursor->link();
+        }
+        m_many_nodes++;
     }
 
     void sequence::attach(const value_type& entry)
     {
-        //WRITE CODE
+        if (size() == 0) {
+            list_head_insert(m_head_ptr, entry);
+            m_tail_ptr = m_head_ptr->link();
+            m_cursor = m_head_ptr;
+            m_precursor = NULL;
+        }
+        else if (!is_item()) {
+            node* temp = m_head_ptr;
+            while (temp->link() != m_tail_ptr) {
+                temp = temp->link();
+            }
+            list_insert(temp, entry);
+            m_precursor = temp;
+            m_cursor = m_precursor->link();
+            m_tail_ptr = m_cursor->link();
+        }
+        else {
+            list_insert(m_cursor, entry);
+            m_precursor = m_cursor;
+            m_cursor = m_cursor->link();
+        }
+        m_many_nodes++;
     }
 
     void sequence::remove_current()
     {
-        //WRITE CODE
+        assert(is_item());
+        // Handles the case when the cursor is on the first item of the sequence
+        if (m_cursor == m_head_ptr) {
+            list_head_remove(m_head_ptr);
+            m_cursor = m_cursor->link();
+        }
+        else {
+            list_remove(m_precursor);
+            m_cursor = m_precursor->link();
+        }
+        m_many_nodes--;
     }
 
     void sequence::operator=(const sequence& source)
     {
-        //WRITE CODE
+        // Checks for self-assignment
+        if (this == &source) {
+            return;
+        }
+        list_clear(m_head_ptr);
+        m_many_nodes = 0;       // Ensures the sequence is valid before calling list_copy
+
+        // Handles the case when the source sequence has no current item
+        if (!source.is_item()) {
+            list_copy(source.m_head_ptr, m_head_ptr, m_tail_ptr);
+            m_cursor = NULL;
+            m_precursor = NULL;
+        }
+        // Handles the case when the current item of the source sequence is the first item
+        else if (source.m_cursor == source.m_head_ptr) {
+            list_copy(source.m_head_ptr, m_head_ptr, m_tail_ptr);
+            m_cursor = m_head_ptr;
+            m_precursor = NULL;
+        }
+        // Handles the case when the current item of the source sequence is after the first item
+        else {
+            list_piece(source.m_head_ptr, source.m_cursor, m_head_ptr, m_precursor);
+            list_piece(source.m_cursor, source.m_tail_ptr, m_cursor, m_tail_ptr);
+            m_precursor->set_link(m_cursor);
+        }
+        m_many_nodes = source.m_many_nodes;
     }
 
     sequence::size_type sequence::size() const
@@ -76,11 +175,12 @@ namespace main_savitch_5
 
     bool sequence::is_item() const
     {
-        //WRITE CODE
+        return (m_cursor != NULL);
     }
 
     sequence::value_type sequence::current() const
     {
-        //WRITE CODE
+        assert(is_item());
+        return m_cursor->data();
     }
 }

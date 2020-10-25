@@ -170,6 +170,7 @@ namespace main_savitch_5
     void list_remove(node* previous_ptr);
     void list_clear(node*& head_ptr);
     void list_copy(const node* source_ptr, node*& head_ptr, node*& tail_ptr);
+	void list_piece(const node* start_ptr, const node* end_ptr, node*& head_ptr, node*& tail_ptr);
 }
 
 #endif

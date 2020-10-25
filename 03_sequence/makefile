@@ -8,7 +8,7 @@ run: seq_ex2
 seq_ex2: $(OBJECTS)
 	$(CC) $(OBJECTS) -o seq_ex2 
 
-sequence1.o: sequence2.cpp sequence2.h
+sequence2.o: sequence2.cpp sequence2.h
 	$(CC) $(CFLAGS) -c sequence2.cpp
 
 seq_ex2.o: seq_ex2.cpp sequence2.h

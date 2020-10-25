@@ -30,7 +30,7 @@ namespace main_savitch_4
         m_current_index = m_used;
     }
 
-    // Constructor, intializes an sequence that is a copy of source
+    // Constructor, intializes a sequence that is a copy of source
     sequence::sequence(const sequence& source)
     {
         m_data = new value_type[source.m_capacity];
