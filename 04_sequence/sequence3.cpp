@@ -24,6 +24,7 @@ using namespace std;
 
 namespace main_savitch_5
 {
+    // Default Constructor, intializes an empty sequence
     sequence::sequence()
     {
         m_head_ptr = NULL;
@@ -33,6 +34,7 @@ namespace main_savitch_5
         m_many_nodes = 0;
     }
 
+    // Copy Constructor, intializes a sequence that is a copy of the source
     sequence::sequence(const sequence& source)
     {
         // Handles the case when the source sequence has no current item
@@ -56,6 +58,7 @@ namespace main_savitch_5
         m_many_nodes = source.m_many_nodes;
     }
 
+    // Destructor, releases dynamic memory when its no longer being used
     sequence::~sequence()
     {
         list_clear(m_head_ptr);
@@ -64,12 +67,16 @@ namespace main_savitch_5
         m_many_nodes = 0;
     }
 
+    // The first item becomes the current item
+    // If the sequence is empty then there is no current item
     void sequence::start()
     {
         m_cursor = m_head_ptr;
         m_precursor = NULL;
     }
 
+    // The item after the current item becomes the new current item
+    //If the current item is the last item in the sequence, then there is no longer any current item
     void sequence::advance()
     {
         assert(is_item());
@@ -77,6 +84,8 @@ namespace main_savitch_5
         m_cursor = m_cursor->link();
     }
 
+    // Entry is inserted before the current item and is the new current item
+    // If there is no current item, then it is inserted in the front of the sequence
     void sequence::insert(const value_type& entry)
     {
         if (size() == 0) {
@@ -97,6 +106,8 @@ namespace main_savitch_5
         m_many_nodes++;
     }
 
+    // Entry is inserted after the current item and is the new current item
+    // If there is no current item, then it is inserted at the end of the sequence
     void sequence::attach(const value_type& entry)
     {
         if (size() == 0) {
@@ -123,21 +134,24 @@ namespace main_savitch_5
         m_many_nodes++;
     }
 
+    // The current item is removed from the sequence
+    // If there is a item after the current item then it becomes the new current item
     void sequence::remove_current()
     {
         assert(is_item());
         // Handles the case when the cursor is on the first item of the sequence
         if (m_cursor == m_head_ptr) {
-            list_head_remove(m_head_ptr);
             m_cursor = m_cursor->link();
+            list_head_remove(m_head_ptr);
         }
         else {
+            m_cursor = m_cursor->link();
             list_remove(m_precursor);
-            m_cursor = m_precursor->link();
         }
         m_many_nodes--;
     }
 
+    // Assignment Operator, assigns a sequence to be a copy of source
     void sequence::operator=(const sequence& source)
     {
         // Checks for self-assignment
@@ -145,7 +159,7 @@ namespace main_savitch_5
             return;
         }
         list_clear(m_head_ptr);
-        m_many_nodes = 0;       // Ensures the sequence is valid before calling list_copy
+        m_many_nodes = 0;   // Ensures the sequence is valid before calling list_copy
 
         // Handles the case when the source sequence has no current item
         if (!source.is_item()) {
@@ -168,16 +182,19 @@ namespace main_savitch_5
         m_many_nodes = source.m_many_nodes;
     }
 
+    // Returns the number of items in the sequence
     sequence::size_type sequence::size() const
     {
         return m_many_nodes;
     }
 
+    // Returns whether or not there exists a current item    
     bool sequence::is_item() const
     {
         return (m_cursor != NULL);
     }
 
+    // Returns the current item in the sequence
     sequence::value_type sequence::current() const
     {
         assert(is_item());
