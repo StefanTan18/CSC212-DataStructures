@@ -88,12 +88,15 @@ namespace main_savitch_5
     // If there is no current item, then it is inserted in the front of the sequence
     void sequence::insert(const value_type& entry)
     {
+        // The entry is the first item if the sequence is empty
         if (size() == 0) {
             list_head_insert(m_head_ptr, entry);
             m_tail_ptr = m_head_ptr->link();
             m_cursor = m_head_ptr;
             m_precursor = NULL;
         }
+        // The entry inserted in the front when there's no current item
+        // or the current item is the first item
         else if (!is_item() || m_cursor == m_head_ptr) {
             list_head_insert(m_head_ptr, entry);
             m_cursor = m_head_ptr;
@@ -110,14 +113,17 @@ namespace main_savitch_5
     // If there is no current item, then it is inserted at the end of the sequence
     void sequence::attach(const value_type& entry)
     {
+        // The entry is the first item if the sequence is empty
         if (size() == 0) {
             list_head_insert(m_head_ptr, entry);
             m_tail_ptr = m_head_ptr->link();
             m_cursor = m_head_ptr;
             m_precursor = NULL;
         }
+        // Inserts the item at the end when there's no current item
         else if (!is_item()) {
             node* temp = m_head_ptr;
+            // Assigns temp to be the pointing to the last node using a loop 
             while (temp->link() != m_tail_ptr) {
                 temp = temp->link();
             }
