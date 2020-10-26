@@ -25,6 +25,12 @@ using namespace std;
 namespace main_savitch_5
 {
     // Default Constructor, intializes an empty sequence
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime of the function is not dependent on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in constant time.
     sequence::sequence()
     {
         m_head_ptr = NULL;
@@ -35,6 +41,13 @@ namespace main_savitch_5
     }
 
     // Copy Constructor, intializes a sequence that is a copy of the source
+    // RUNTIME ANALYSIS:
+    //  1. O(n), linear time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be linear as the function iterates through the source
+    //     sequence to copy it. 
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in linear time as it iterates through the array to copy it.
     sequence::sequence(const sequence& source)
     {
         // Handles the case when the source sequence has no current item
@@ -59,6 +72,13 @@ namespace main_savitch_5
     }
 
     // Destructor, releases dynamic memory when its no longer being used
+    // RUNTIME ANALYSIS:
+    //  1. O(n), linear time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be linear as the function iterates through the
+    //     sequence to delete it.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in linear time as it iterates through the array to delete it.
     sequence::~sequence()
     {
         list_clear(m_head_ptr);
@@ -69,6 +89,12 @@ namespace main_savitch_5
 
     // The first item becomes the current item
     // If the sequence is empty then there is no current item
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be constant as it does not depend on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in constant time.
     void sequence::start()
     {
         m_cursor = m_head_ptr;
@@ -77,6 +103,12 @@ namespace main_savitch_5
 
     // The item after the current item becomes the new current item
     //If the current item is the last item in the sequence, then there is no longer any current item
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be constant as it does not depend on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in constant time.
     void sequence::advance()
     {
         assert(is_item());
@@ -86,6 +118,14 @@ namespace main_savitch_5
 
     // Entry is inserted before the current item and is the new current item
     // If there is no current item, then it is inserted in the front of the sequence
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be constant as it does not depend on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     runs slower in O(n^2), quadratic time, for the worst case where it has 
+    //     to copy the sequence into a new resized array and push back all
+    //     the items when inserting in the front. 
     void sequence::insert(const value_type& entry)
     {
         // The entry is the first item if the sequence is empty
@@ -111,6 +151,14 @@ namespace main_savitch_5
 
     // Entry is inserted after the current item and is the new current item
     // If there is no current item, then it is inserted at the end of the sequence
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be constant as it does not depend on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     runs slower in O(n^2), quadratic time, for the worst case where it has 
+    //     to copy the sequence into a new resized array and push back all
+    //     the items when attaching an item in the front.
     void sequence::attach(const value_type& entry)
     {
         // The entry is the first item if the sequence is empty
@@ -142,6 +190,14 @@ namespace main_savitch_5
 
     // The current item is removed from the sequence
     // If there is a item after the current item then it becomes the new current item
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be constant as it does not depend on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     runs slower in O(n), linear time, for the worst case where it has 
+    //     to push the items forward to replace the empty space left by the
+    //     removed item.
     void sequence::remove_current()
     {
         assert(is_item());
@@ -158,6 +214,13 @@ namespace main_savitch_5
     }
 
     // Assignment Operator, assigns a sequence to be a copy of source
+    // RUNTIME ANALYSIS:
+    //  1. O(n), linear time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime will be linear as the function iterates through the source
+    //     sequence to copy it. 
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in linear time as it iterates through the array to copy it.
     void sequence::operator=(const sequence& source)
     {
         // Checks for self-assignment
@@ -189,18 +252,36 @@ namespace main_savitch_5
     }
 
     // Returns the number of items in the sequence
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime of the function is not dependent on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in constant time.
     sequence::size_type sequence::size() const
     {
         return m_many_nodes;
     }
 
     // Returns whether or not there exists a current item    
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime of the function is not dependent on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in constant time.
     bool sequence::is_item() const
     {
         return (m_cursor != NULL);
     }
 
     // Returns the current item in the sequence
+    // RUNTIME ANALYSIS:
+    //  1. O(1), constant time 
+    //  2. Given input size n as the number of items in the sequence, the
+    //     runtime of the function is not dependent on size n.
+    //  3. The corresponding function of the sequence using a dynamic array
+    //     also runs in constant time.
     sequence::value_type sequence::current() const
     {
         assert(is_item());
