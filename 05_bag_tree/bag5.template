@@ -43,6 +43,19 @@ namespace main_savitch_10
 	     ** made to this pointer in the recursive call will directly change
 	     ** the right pointer in the root_ptr's node.
 	     */
+		// Base Case, the item at the root_ptr is the max item, and then removed
+		// The root_ptr becomes the left child of the original root_ptr
+		if (root_ptr->right() == NULL) {
+			binary_tree_node<Item> *temp;
+			temp = root_ptr;
+			root_ptr = root_ptr->left();
+			removed = temp->data();
+			delete temp;
+		}
+		// Recursive Case, continues finding the max item
+		else {
+			bst_remove_max(root_ptr->right(), removed);
+		}
 	}
 
     template <class Item>
@@ -117,20 +130,24 @@ namespace main_savitch_10
 	     */
 	    
 	    binary_tree_node<Item> *oldroot_ptr;
+		size_t copies_removed = 0;
 	    
 	    if (root_ptr == NULL)
 	    {   // Empty tree
 	        /* STUDENT WORK */
+			return copies_removed;
 	    }
 
 	    if (target < root_ptr->data( ))
 	    {   // Continue looking in the left subtree
 	        /* STUDENT WORK */
+			return bst_remove_all(root_ptr->left(), target);
 	    }
 
 	    if (target > root_ptr->data( ))
 	    {   // Continue looking in the right subtree
 	        /* STUDENT WORK */
+			return bst_remove_all(root_ptr->right(), target);
 	    }
 	    
 	    if (root_ptr->left( ) == NULL)
@@ -150,7 +167,9 @@ namespace main_savitch_10
 	    // the maximum element that we moved up from our left subtree
 	    // might also be a copy of the target).
 	    /* STUDENT WORK */
-
+		bst_remove_max(root_ptr->left(), root_ptr->data());
+		copies_removed++;
+		return bst_remove_all(root_ptr, target);
 	}
 
     template <class Item>
@@ -190,6 +209,22 @@ namespace main_savitch_10
 	    {   // Move down the tree and add a new leaf:
 		cursor = root_ptr;
 		/* STUDENT WORK */
+		binary_tree_node<Item> *precursor = NULL;
+		while (cursor != NULL) {
+			precursor = cursor;
+			if (entry <= cursor->data()) {
+				cursor = cursor->left();
+			}
+			else {
+				cursor = cursor->right();
+			}
+		}
+		if (entry <= precursor->data()) {
+			precursor->left() = new binary_tree_node<Item>(entry);
+		}
+		else {
+			precursor->right() = new binary_tree_node<Item>(entry);
+		}
 	    }
 	}
 
@@ -201,6 +236,18 @@ namespace main_savitch_10
 
 	    cursor = root_ptr;
 	    /* STUDENT WORK */
+		while (cursor != NULL) {
+			if (target < cursor->data()) {
+				cursor = cursor->left();
+			}
+			else if (target > cursor->data()) {
+				cursor = cursor->right();
+			}
+			else {
+				answer++;
+				cursor = cursor->left();
+			}
+		}
 
 	    return answer;
 	}

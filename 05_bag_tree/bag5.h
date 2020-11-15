@@ -1,3 +1,5 @@
+// Provided by: Stefan Tan
+// Email Address: stan002@citymail.cuny.edu
 // FILE: bag5.h (part of the namespace main_savitch_10)
 // TEMPLATE CLASS PROVIDED: bag<Item>
 //     (a container template class for a collection of items)
