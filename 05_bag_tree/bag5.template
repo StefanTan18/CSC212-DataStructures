@@ -209,20 +209,25 @@ namespace main_savitch_10
 	    {   // Move down the tree and add a new leaf:
 		cursor = root_ptr;
 		/* STUDENT WORK */
-		binary_tree_node<Item> *precursor = NULL;
+		binary_tree_node<Item> *precursor = NULL; // Keeps track of the parent
+		// Continues moving down until the cursor is in the appropriate spot
 		while (cursor != NULL) {
 			precursor = cursor;
 			if (entry <= cursor->data()) {
+				// Moves down left subtree
 				cursor = cursor->left();
 			}
 			else {
+				// Moves down right subtree
 				cursor = cursor->right();
 			}
 		}
 		if (entry <= precursor->data()) {
+			// Entry is added as the left child 
 			precursor->left() = new binary_tree_node<Item>(entry);
 		}
 		else {
+			// Entry is added as the right child
 			precursor->right() = new binary_tree_node<Item>(entry);
 		}
 	    }
@@ -236,15 +241,20 @@ namespace main_savitch_10
 
 	    cursor = root_ptr;
 	    /* STUDENT WORK */
+		// Moves down the tree to find the target
 		while (cursor != NULL) {
+			// Moves down the left subtree
 			if (target < cursor->data()) {
 				cursor = cursor->left();
 			}
+			//Moves down the right subtree
 			else if (target > cursor->data()) {
 				cursor = cursor->right();
 			}
 			else {
+				// The target is found
 				answer++;
+				// Moves down the left subtree to check for duplicates
 				cursor = cursor->left();
 			}
 		}
